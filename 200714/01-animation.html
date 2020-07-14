@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Canvas</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      canvas {
+        background-color: #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>requestAnimationFrame</h1>
+    <canvas class="canvas" width="500" height="300">
+      이 브라우저는 캔버스를 지원하지 않습니다.
+    </canvas>
+
+    <script>
+      const canvas = document.querySelector('.canvas');
+      const context = canvas.getContext('2d');
+      let xpos = 10;
+      let timerId;
+
+      function draw() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.beginPath();
+        context.arc(xpos, 150, 5, 0, Math.PI * 2, false);
+        context.fill();
+        xpos += 2;
+
+        // if (xpos >= canvas.width - 5) {
+        //   return;
+        // }
+
+        // 엄청 빠른 속도로 호출을 반복함(초당 60회), 그리기 준비가 되면 콜백 호출
+        timerId = requestAnimationFrame(draw);
+        // if (xpos >= canvas.width - 5) {
+        //   cancelAnimationFrame(timerId);
+        // }
+      }
+
+      draw();
+
+      canvas.addEventListener('click', () => {
+        cancelAnimationFrame(timerId);
+      });
+    </script>
+  </body>
+</html>
